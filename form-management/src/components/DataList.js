@@ -9,6 +9,7 @@ const DataList = (props) => {
     axiosAuth()
       .get('http://localhost:5000/api/restricted/data')
       .then(response => {
+        console.log("auth response", response)
         setDatas(response.data)
       })
       .catch(err => console.log(err))

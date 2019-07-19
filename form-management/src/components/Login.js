@@ -3,9 +3,9 @@ import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { axiosAuth } from "./axiosAuth";
 import { Redirect } from "react-router-dom";
-// import { useLocalStorage } from "./customHooks"
 
 function Login({ touched, errors }) {
+
   const token = localStorage.getItem("token");
 
   if (token) {
@@ -54,6 +54,8 @@ export default withFormik({
       .required()
   }),
   handleSubmit(values, formikBag) {
+    console.log("this", this)
+    console.log("formikBag", formikBag)
     console.log("submitting")
     console.log(values)
     const url =
@@ -62,11 +64,13 @@ export default withFormik({
       .post(url, values)
       .then(response => {
         console.log("response", response)
-        localStorage.setItem("token", response.data.token);
+        formikBag.props.setValue(response.data.token);
         formikBag.props.history.push("/dataList");
       })
       .catch(e => {
-        console.log(e.response.data);
+
+        console.log(e);
+
       });
   }
 })(Login);
