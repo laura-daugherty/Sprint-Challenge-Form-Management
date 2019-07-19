@@ -3,33 +3,34 @@ import { axiosAuth } from './axiosAuth';
 
 const DataList = (props) => {
   console.log(props)
-  const [data, setData] = useState([]);
+  const [datas, setDatas] = useState([]);
 
   useEffect(() => {
     axiosAuth()
-      .get('restricted/data')
+      .get('http://localhost:5000/api/restricted/data')
       .then(response => {
-        console.log("response", response)
-        setData(response.data)
+        setDatas(response.data)
+      })
       .catch(err => console.log(err))
-    }, [])
-    return (
+  }, [])
+      
+  return (
+    <div>
       <div>
-        {data.map(data => {
+        {datas.map(data => {
           return (
-            <div>
-              <div>DataList</div>
-              <div
-                key={data.id}
-              >
-                {data}
-              </div>
+            <div
+              key={data.name}
+            >
+              {data.name}
+              {data.couse}
+              {data.ingredients}
             </div>
           )
         })}
       </div>
-    )
-  })
+    </div>
+  )
 }
 export default DataList
     

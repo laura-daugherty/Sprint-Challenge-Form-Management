@@ -1,9 +1,9 @@
 import React from "react";
 import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { axiosAuth } from "./axiosAuth";
 import { Redirect } from "react-router-dom";
+// import { useLocalStorage } from "./customHooks"
 
 function Login({ touched, errors }) {
   const token = localStorage.getItem("token");
@@ -46,13 +46,13 @@ export default withFormik({
       password: ""
     };
   },
-  // validationSchema: Yup.object().shape({
-  //   email: Yup.string()
-  //     .required(),
-  //   password: Yup.string()
-  //     .min(6)
-  //     .required()
-  // }),
+  validationSchema: Yup.object().shape({
+    username: Yup.string()
+      .required(),
+    password: Yup.string()
+      .min(6)
+      .required()
+  }),
   handleSubmit(values, formikBag) {
     console.log("submitting")
     console.log(values)
@@ -63,11 +63,13 @@ export default withFormik({
       .then(response => {
         console.log("response", response)
         localStorage.setItem("token", response.data.token);
-        // formikBag.props.history.push("/dataList");
+        formikBag.props.history.push("/dataList");
       })
       .catch(e => {
         console.log(e.response.data);
       });
   }
 })(Login);
+
+
 
